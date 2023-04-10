@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">WApp</string>
+    <string name="btnCentral">Boton central</string>
+    <string name="btnBateria">Boton Batería</string>
+    <string name="TODO">todo</string>
+</resources>
