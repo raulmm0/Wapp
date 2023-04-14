@@ -19,7 +19,7 @@ import java.util.concurrent.Executor
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private val logTag: String = "eiba"
+    private val logTag: String = "MainActivityLog"
     private lateinit var mediaPlayer: MediaPlayer
     private lateinit var notificationManager: NotificationManager
     private lateinit var executor: Executor
@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
             object : BiometricPrompt.AuthenticationCallback() {
                 override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
                     super.onAuthenticationSucceeded(result)
-                    // abrir actividad
+                    // open activity
                     startActivity(Intent(applicationContext, Activity2::class.java))
                 }
 
@@ -78,18 +78,18 @@ class MainActivity : AppCompatActivity() {
         notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
         createNotificationChannel()
 
-        // reproducir musica
+        // play music
         mediaPlayer = MediaPlayer.create(this, R.raw.music)
         mediaPlayer.start()
 
-        // boton principal, genera un numero aleatorio
+        // primary button, generate random number
         binding.imageButton.setOnClickListener { view ->
             val cantidad = (Math.random() * 17).toInt() + 3
             // Snackbar.make(view, "Esta vez serán $cantidad", Snackbar.LENGTH_LONG).show()
             Toast.makeText(view.context, "Esta vez serán $cantidad", Toast.LENGTH_LONG).show()
         }
 
-        // boton secundario
+        // secondary button
         binding.floatingActionButton.setOnClickListener { view ->
             Snackbar.make(view, "Authentication", Snackbar.LENGTH_LONG).show()
             biometricPrompt.authenticate(promptInfo)
@@ -100,7 +100,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     /**
-     * Create a notificatión channel
+     * Create a notification channel
      */
     private fun createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O &&
