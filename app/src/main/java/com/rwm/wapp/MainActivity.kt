@@ -83,9 +83,10 @@ class MainActivity : AppCompatActivity() {
         mediaPlayer.start()
 
         // primary button, generate random number
-        binding.imageButton.setOnClickListener { view ->
-            val cantidad = (Math.random() * 17).toInt() + 3
-            Snackbar.make(view, "Esta vez serán $cantidad", Snackbar.LENGTH_LONG).show()
+        binding.imageButton.setOnClickListener {
+            startService(Intent(applicationContext, MyService::class.java))
+
+            // Snackbar.make(view, "Esta vez serán $cantidad", Snackbar.LENGTH_LONG).show()
             // Toast.makeText(view.context, "Esta vez serán $cantidad", Toast.LENGTH_LONG).show()
         }
 
