@@ -1,6 +1,19 @@
 <resources>
-    <string name="app_name">WApp</string>
-    <string name="btnCentral">Boton central</string>
-    <string name="btnBateria">Boton Batería</string>
-    <string name="TODO">todo</string>
+    <string name="app_name" translatable="false">WApp</string>
+    <string name="btnCentral">Main action</string>
+    <string name="TODO" translatable="false">TODO</string>
+
+    <!--  Activity Titles  -->
+    <string name="title_activity_notes">NOTES</string>
+    <string name="title_activity_settings">Opciones</string>
+
+    <!-- Preference Titles -->
+    <string name="music_category">Music</string>
+    <string name="music_title">Habilitar musica en las notas</string>
+    <string name="games_title">Juegos</string>
+    <string name="notes_title">Notes</string>
+    <string name="tic_tac_toe_title">Tres en raya</string>
+    <string name="guestTheNumber_title">Adivina el numero</string>
+    <string name="settings_title">Opciones</string>
+
 </resources>

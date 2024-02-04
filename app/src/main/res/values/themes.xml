@@ -1,28 +1,34 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Wapp" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.Wapp" parent="Theme.MaterialComponents.Light">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/grey</item>
-        <item name="colorPrimaryVariant">@color/black</item>
-        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryVariant">@color/red</item>
+        <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/black</item>
-        <item name="colorSecondaryVariant">@color/black</item>
-        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorSecondaryVariant">@color/red</item>
+        <item name="colorOnSecondary">@color/black</item>
+
+        <!-- Customize your theme here. -->
+
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/white</item>
-        <!-- Customize your theme here. -->
         <item name="android:windowLightStatusBar">true</item>
+
+        <!-- Navigation bar. -->
         <item name="android:navigationBarColor">@color/white</item>
         <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
     </style>
 
-    <style name="Theme.Wapp.NoActionBar">
+    <style name="Theme.Wapp.NoActionBar" parent="Theme.Wapp">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.Wapp.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.Wapp.ActionBar" parent="Theme.Wapp">
+        <item name="windowActionBar">true</item>
+        <item name="windowNoTitle">false</item>
+    </style>
 
-    <style name="Theme.Wapp.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

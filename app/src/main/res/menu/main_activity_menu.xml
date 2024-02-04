@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/notes"
+        android:title="@string/notes_title"
+        android:icon="@android:drawable/ic_lock_lock"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/games"
+        android:title="@string/games_title"
+        app:showAsAction="never">
+
+        <menu>
+
+            <item android:id="@+id/guestTheNumber"
+                android:title="@string/guestTheNumber_title" />
+
+            <item android:id="@+id/ThreeInARow"
+                android:title="@string/tic_tac_toe_title" />
+
+        </menu>
+
+    </item>
+
+    <item
+        android:id="@+id/options"
+        android:title="@string/settings_title"
+        app:showAsAction="never" />
+
+</menu>

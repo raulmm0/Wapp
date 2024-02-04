@@ -2,17 +2,20 @@ package com.rwm.wapp
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.media.MediaPlayer
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
-import com.google.android.material.snackbar.Snackbar
 import com.rwm.wapp.databinding.ActivityMainBinding
 import java.util.concurrent.Executor
 
@@ -25,6 +28,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var executor: Executor
     private lateinit var biometricPrompt: BiometricPrompt
     private lateinit var promptInfo: BiometricPrompt.PromptInfo
+    private var soundChanger: Boolean = true
+    private lateinit var sharedPref: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d(logTag, "** MainActivity onCreate **")
@@ -32,6 +37,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        sharedPref = getPreferences(Context.MODE_PRIVATE)
 
         executor = ContextCompat.getMainExecutor(applicationContext)
         biometricPrompt = BiometricPrompt(this, executor,
@@ -39,7 +45,7 @@ class MainActivity : AppCompatActivity() {
                 override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
                     super.onAuthenticationSucceeded(result)
                     // open activity
-                    startActivity(Intent(applicationContext, Activity2::class.java))
+                    startActivity(Intent(applicationContext, ActivityNotes::class.java))
                 }
 
                 override fun onAuthenticationFailed() {
@@ -74,29 +80,41 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // crear canal de notificaciones si no se a creado antes
-        notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-        createNotificationChannel()
+        val firstStart: Boolean = sharedPref.getString("firstStart", "") != ""
+        // create notification channel
+        if (firstStart) {
+            notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+            createNotificationChannel()
+            with (sharedPref.edit()) {
+                putString("firstStart", "NO")
+                apply()
+            }
+        }
 
-        // play music
-        mediaPlayer = MediaPlayer.create(this, R.raw.music)
-        mediaPlayer.start()
-
-        // primary button, generate random number
+        // primary button, make a sound
         binding.imageButton.setOnClickListener {
-            startService(Intent(applicationContext, MyService::class.java))
-
-            // Snackbar.make(view, "Esta vez serán $cantidad", Snackbar.LENGTH_LONG).show()
-            // Toast.makeText(view.context, "Esta vez serán $cantidad", Toast.LENGTH_LONG).show()
+            if (soundChanger) {
+                mediaPlayer = MediaPlayer.create(this, R.raw.wd_1_hack)
+                soundChanger = false
+            } else {
+                mediaPlayer = MediaPlayer.create(this, R.raw.wd_1_hack_short)
+                soundChanger = true
+            }
+            mediaPlayer.start()
+//        startService(Intent(applicationContext, MyService::class.java))
+//        Snackbar.make(view, "Esta vez serán $cantidad", Snackbar.LENGTH_LONG).show()
+//        Toast.makeText(view.context, "Esta vez serán $cantidad", Toast.LENGTH_LONG).show()
         }
 
-        // secondary button
-        binding.floatingActionButton.setOnClickListener { view ->
-            Snackbar.make(view, "Authentication", Snackbar.LENGTH_LONG).show()
-            biometricPrompt.authenticate(promptInfo)
-        }
+//        // secondary button
+//        binding.floatingActionButton.setOnClickListener { view ->
+//
+//          Snackbar.make(view, "Authentication", Snackbar.LENGTH_LONG).show()
+//          biometricPrompt.authenticate(promptInfo)
+//
+//        }
 
-        Toast.makeText(applicationContext, "¡Bienvenido!", Toast.LENGTH_SHORT).show()
+        Toast.makeText(applicationContext, "¡Bienvenido!", Toast.LENGTH_LONG).show()
 
     }
 
@@ -118,19 +136,57 @@ class MainActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         Log.d(logTag, "** MainActivity onDestroy **")
-        mediaPlayer.stop()
         super.onDestroy()
     }
 
     override fun onPause() {
         Log.d(logTag, "** MainActivity onPause **")
-        mediaPlayer.pause()
         super.onPause()
     }
 
     override fun onResume() {
         Log.d(logTag, "** MainActivity onResume **")
-        mediaPlayer.start()
         super.onResume()
     }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_activity_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+
+            // Notes
+            R.id.notes -> {
+
+                biometricPrompt.authenticate(promptInfo)
+
+            }
+
+            // Games
+            R.id.ThreeInARow -> {
+
+                startActivity(Intent(applicationContext, ActivityTicTacToe::class.java))
+
+            }
+
+            R.id.guestTheNumber -> {
+
+//                startActivity(Intent(applicationContext, ActivityGuestTheNumber::class.java))
+
+            }
+
+            // Options
+            R.id.options -> {
+
+                startActivity(Intent(applicationContext, SettingsActivity::class.java))
+
+            }
+            // Default
+            else -> return super.onOptionsItemSelected(item)
+        }
+        return true
+    }
+
 }
